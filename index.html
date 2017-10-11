@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+    <link rel="import" id="picts" href="http://www.petqts.com/picts.html">
+
+    <title>A Serverless Gallery of Pet Pictures</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet" >
+
+    <!-- Custom styles for this template -->
+    <link href="album.css" rel="stylesheet">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-dark bg-dark">
+      <div class="container d-flex justify-content-between">
+        <a href="#" class="navbar-brand">Pet Cuties</a>
+      </div>
+    </div>
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">Pictures of Cute Animals</h1>
+        <p class="lead text-muted">This is collection of pictures of pets and other animals for your enjoyment</p>
+         <div id="logged-out" style="display:none">
+            <h5>Sign in to upload your pictures</h5>
+            <div id="firebaseui-auth-container"></div>
+          </div>
+                
+         <div id="logged-in" style="display:none">
+                <p>You are ready to upload files</p>
+                <p>
+                   <input type="file" id="fileButton"/u accept="image/*">
+                  <a href="#" class="btn btn-secondary" id="sign-out">Sign Out</a>
+                </p>
+          </div>
+         </div>
+    </section>
+
+
+    <div class="album text-muted">
+      <div class="container">
+
+        <div class="row" id="pictrow">
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Back to top</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!--<script>window.jQuery || document.write('<script src="assets/js/vendor/jquery.min.js"><\/script>')</script> -->
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="assets/js/vendor/holder.min.js"></script>
+    <script>
+      $(function () {
+        Holder.addTheme("thumb", { background: "#55595c", foreground: "#eceeef", text: "Thumbnail" });
+      });
+    </script>
+    <script src="dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/4.5.0/firebase-storage.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/live/1.0/firebase-ui-auth.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="/main.js"></script>
+  <script>
+  function supportsImports() {
+    return 'import' in document.createElement('link');
+  }
+
+  if (supportsImports()) {
+    // Good to go!
+    var link = document.querySelector('#picts');
+
+    // Clone the <template> in the import.
+    var template = link.import.querySelector('template');
+    var clone = document.importNode(template.content, true);
+    document.querySelector('#pictrow').appendChild(clone);
+    
+  } else {
+    function clientSideInclude(id, url) {
+      var req = false;
+      // For Safari, Firefox, and other non-MS browsers
+      if (window.XMLHttpRequest) {
+        try {
+          req = new XMLHttpRequest();
+        } catch (e) {
+          req = false;
+        }
+      } else if (window.ActiveXObject) {
+        // For Internet Explorer on Windows
+        try {
+          req = new ActiveXObject("Msxml2.XMLHTTP");
+        } catch (e) {
+          try {
+            req = new ActiveXObject("Microsoft.XMLHTTP");
+          } catch (e) {
+            req = false;
+          }
+        }
+      }
+     var element = document.getElementById(id);
+     if (!element) {
+      alert("Bad id " + id + 
+       "passed to clientSideInclude." +
+       "You need a div or span element " +
+       "with this id in your page.");
+      return;
+     }
+      if (req) {
+        // Synchronous request, wait till we have it all
+        req.open('GET', url, false);
+        req.send(null);
+        var link = document.createElement("div");
+        link.innerHTML = req.responseText;
+
+        var template = link.querySelector('template');
+        var clone = document.importNode(template.content, true);
+        document.querySelector('#pictrow').appendChild(clone);
+
+        //element.innerHTML = req.responseText;
+      } else {
+        element.innerHTML =
+       "Sorry, your browser does not support " +
+          "XMLHTTPRequest objects. This page requires " +
+          "Internet Explorer 5 or better for Windows, " +
+          "or Firefox for any system, or Safari. Other " +
+          "compatible browsers may also exist.";
+      }
+    }
+    clientSideInclude("pictrow", "http://www.petqts.com/picts.html");
+  }
+
+
+  </script>
+    
+
+    
+  </body>
+</html>
