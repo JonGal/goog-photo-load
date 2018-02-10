@@ -1,8 +1,6 @@
 # Make sure this profile has Lambda loading and execution permissions
-site_PROFILE=Matt-Lab-Dev
 #Make sure this is correct for KMS and Lambda
 #Keep them the same region for performance!
-REGION=us-west-2
 
 
 #Deliverable

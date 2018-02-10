@@ -92,6 +92,7 @@
     return 'import' in document.createElement('link');
   }
 
+  console.log("Starting init");
   if (supportsImports()) {
     // Good to go!
     var link = document.querySelector('#picts');
@@ -155,6 +156,37 @@
     clientSideInclude("pictrow", "http://www.petqts.com/picts.html");
   }
 
+
+  </script>
+
+  <script>
+  var theResource = "picts.html";
+  $(document).ready(function(){
+
+     console.log("ETag for picts.html entering");
+     $.ajax({
+          url:theResource,
+          type:"head",
+          success:function(res,code,xhr) {
+               console.log("ETag for picts.html is "+ xhr.getResponseHeader("ETag"));
+               localStorage.setItem("ETag",xhr.getResponseHeader("ETag"));
+          }
+     });
+
+    setInterval(function(){$.ajax({
+                url:theResource,
+                type:"head",
+                success:function(res,code,xhr) {
+                     console.log("comparing mine "+ localStorage.getItem("ETag") + " to "+ xhr.getResponseHeader("ETag"));
+                     if(localStorage.getItem("ETag") != xhr.getResponseHeader("ETag")) 
+                     { 
+                       location.reload(true);
+                     }
+
+                }
+    });}, 3000);
+   
+  });
 
   </script>
     
