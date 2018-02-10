@@ -140,7 +140,20 @@ $(function(){
         var file = e.target.files[0];
         var storageRef = Alt_storage.ref("upload/"+file.name);
         console.log(file.name);
-        storageRef.put(file).then(function(value){}).catch(function(error){console.log(error.message)});
+        storageRef.put(file).then(function(value){
+            setInterval(function(){$.ajax({
+                        url:theResource,
+                        type:"head",
+                        success:function(res,code,xhr) {
+                             console.log("comparing mine "+ localStorage.getItem("ETag") + " to "+ xhr.getResponseHeader("ETag"));
+                             if(localStorage.getItem("ETag") != xhr.getResponseHeader("ETag")) 
+                             { 
+                               location.reload(true);
+                             }
+
+                        }
+            });}, 3000);
+        }).catch(function(error){console.log(error.message)});
     });  
 
 });
